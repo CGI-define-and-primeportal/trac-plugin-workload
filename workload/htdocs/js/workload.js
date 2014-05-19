@@ -33,6 +33,7 @@ $(document).ready(function() {
           rendererOptions: {
             showDataLabels: true,
             dataLabels: 'value', // can use 'percent' too
+            shadowAlpha: 0,
           }
         }, 
         legend: { show:true, location: 'e' },
