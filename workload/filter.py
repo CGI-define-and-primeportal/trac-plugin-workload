@@ -22,15 +22,12 @@ class Workload(Component):
 
     def match_request(self, req):
         """
-        Match against a path, and check that the milestone idenfied exists via
-        _get_milestone().
+        Match requests to ajax/workload. We don't check the validity of 
+        the milestone as this would involve a database query which would 
+        slow the request cycle down significantly.
         """
 
-        if req.path_info.startswith("/ajax/workload"):
-            try:
-                return self._get_milestone(req.args['id'])
-            except KeyError:
-                return False
+        return req.path_info.startswith("/ajax/workload")
 
     def process_request(self, req):
         """
