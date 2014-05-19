@@ -50,7 +50,6 @@ $(document).ready(function() {
   // set the correct title attribute when user hovers over segment
   $(workload_selectors).bind('jqplotDataHighlight', function(ev, seriesIndex, pointIndex, data) {
     var $this = $(this);
-    console.log(data)
     $this.css('cursor', 'pointer');
     title = data[0] + ": " + data[1]
     if ($this.attr('id') == "milestone-workload") {
