@@ -6,16 +6,30 @@ $(document).ready(function() {
                             #milestone-workdone, #milestone-workdone-hours"
   $(workload_selectors).append(spinner_markup);
 
+  var other_workload_ticket_query = '';
+  var other_workload_hours_query = '';
+  var other_workdone_ticket_query = '';
+  var other_workdone_hours_query = '';
+
   $.ajax({
     type:"GET",
     data: {'id': milestone_name},
     url: window.tracBaseUrl + "ajax/workload",
     success: function(data) {
       $(".workload-spinner").remove();
-      draw_piechart(data[0], 'milestone-workload');
-      draw_piechart(data[1], 'milestone-workload-hours');
-      draw_piechart(data[2], 'milestone-workdone');
-      draw_piechart(data[3], 'milestone-workdone-hours');
+
+      // render the piecharts
+      draw_piechart(data['remaining_tickets'], 'milestone-workload');
+      draw_piechart(data['remaining_hours'], 'milestone-workload-hours');
+      draw_piechart(data['closed_tickets'], 'milestone-workdone');
+      draw_piechart(data['logged_hours'], 'milestone-workdone-hours');
+
+      // update other query variables for later use in hyperlinks
+      other_workload_ticket_query = data['remaing_tickets_other'];
+      other_workload_hours_query = data['remaining_hours_other'];
+      other_workdone_ticket_query = data['closed_tickets_other'];
+      other_workdone_hours_query = data['logged_hours_other'];
+
     },
     error: function(data) {
       $(".workload-spinner, #milestone-workload-hours, #milestone-workdone-hours").remove()
@@ -80,6 +94,9 @@ $(document).ready(function() {
   $(workload_selectors).bind('  jqplotDataClick', function(ev, seriesIndex, pointIndex, data) {
     if (data[0] == "unassigned") {
       var query = "/project1/query?owner=&milestone=" + milestone_name;
+    } 
+    else if (data[0] == "other") {
+      var query = other_query_sting($(this).attr('id'));
     } else {
       var query = "/project1/query?owner=~" + data[0] + "&milestone=" + milestone_name;
     }
@@ -96,6 +113,24 @@ $(document).ready(function() {
     }
     window.location = (query)
   });
+
+  function other_query_sting(element_id) {
+    if (element_id == 'milestone-workload') {
+      var exclude = other_workload_ticket_query;
+    }
+    else if (element_id == 'milestone-workload-hours') {
+      var exclude = other_workload_hours_query;
+    }
+    else if (element_id == 'milestone-workdone') {
+      var exclude = other_workdone_ticket_query;
+    }
+    else if (element_id == 'milestone-workdone-hours') {
+      var exclude = other_workdone_hours_query;
+    }
+
+    return "/project1/query?" + exclude + "&milestone=" + milestone_name;
+
+  }
 
 
 })
