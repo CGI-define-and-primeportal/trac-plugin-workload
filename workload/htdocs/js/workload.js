@@ -93,12 +93,12 @@ $(document).ready(function() {
   // set link when user clicks on segment
   $(workload_selectors).bind('  jqplotDataClick', function(ev, seriesIndex, pointIndex, data) {
     if (data[0] == "unassigned") {
-      var query = "/project1/query?owner=&milestone=" + milestone_name;
+      var query = "query?owner=&milestone=" + milestone_name;
     } 
     else if (data[0] == "other") {
       var query = other_query_sting($(this).attr('id'));
     } else {
-      var query = "/project1/query?owner=~" + data[0] + "&milestone=" + milestone_name;
+      var query = "query?owner=~" + data[0] + "&milestone=" + milestone_name;
     }
 
     if ($(this).attr('id') == "milestone-workdone") {
@@ -106,12 +106,12 @@ $(document).ready(function() {
     }
     else if ($(this).attr('id') == "milestone-workdone-hours") {
       // send user to manage hours page if they click on the hours logged chart
-      var query = "/project1/hours?col=seconds_worked&col=worker&col=time_started&worker_filter=" + data[0];
+      var query = "hours?col=seconds_worked&col=worker&col=time_started&worker_filter=" + data[0];
     }
     else {
       var query = query + "&status=!closed";
     }
-    window.location = (query)
+    window.location = (window.tracBaseUrl + query)
   });
 
   function other_query_sting(element_id) {
@@ -128,7 +128,7 @@ $(document).ready(function() {
       var exclude = other_workdone_hours_query;
     }
 
-    return "/project1/query?" + exclude + "&milestone=" + milestone_name;
+    return "query?" + exclude + "&milestone=" + milestone_name;
 
   }
 
