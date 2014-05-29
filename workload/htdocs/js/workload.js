@@ -85,14 +85,14 @@ $(document).ready(function() {
     }
 
     if ($(this).attr('id') == "milestone-workdone") {
-      var query = query + "&statusgroup=Closed";
+      var query = query + "&status=closed";
     }
     else if ($(this).attr('id') == "milestone-workdone-hours") {
       // send user to manage hours page if they click on the hours logged chart
       var query = "/project1/hours?col=seconds_worked&col=worker&col=time_started&worker_filter=" + data[0];
     }
     else {
-      var query = query + "&statusgroup=Active";
+      var query = query + "&status=!closed";
     }
     window.location = (query)
   });
