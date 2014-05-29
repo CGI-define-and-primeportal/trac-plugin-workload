@@ -186,6 +186,7 @@ class Workload(Component):
                         WHERE t.milestone=%s
                             AND c.name=%s
                             AND t.status!='closed'
+                            AND CAST(c.value as numeric)>0
                         GROUP BY t.owner
                         ORDER BY SUM(CAST(c.value as numeric)) DESC""",
                   (milestone,"remaininghours"))
