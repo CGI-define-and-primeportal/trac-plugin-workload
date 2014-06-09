@@ -2,7 +2,7 @@ from trac.config import Option
 from trac.core import Component, TracError, implements
 from trac.resource import ResourceNotFound
 from trac.ticket.model import Milestone
-from trac.util.presentation import to_json
+from trac.util.presentation import to_json, DecimalEncoder
 from trac.web import ITemplateStreamFilter
 from trac.web.api import IRequestHandler
 from trac.web.chrome import ITemplateProvider, add_script, add_stylesheet, add_script_data
@@ -54,7 +54,7 @@ class Workload(Component):
                 'logged_hours_other': self._other_user_query_string(logged_count),
         }
 
-        req.send(to_json(data), 'text/json')
+        req.send(to_json(data, cls=DecimalEncoder), 'text/json')
 
     # ITemplateStreamFilter method
 

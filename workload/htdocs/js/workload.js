@@ -48,6 +48,7 @@ $(document).ready(function() {
             showDataLabels: true,
             dataLabels: 'value', // can use 'percent' too
             shadowAlpha: 0,
+            dataLabelFormatString: (chart == 'milestone-workload' || chart == 'milestone-workdone') ? null : '%.2f'
           }
         }, 
         legend: { show:true, location: 'e' },
