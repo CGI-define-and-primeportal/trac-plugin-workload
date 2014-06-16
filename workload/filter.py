@@ -38,21 +38,32 @@ class Workload(Component):
         if not req.get_header('X-Requested-With') == 'XMLHttpRequest':
             raise TracError("We only accept XMLHttpRequests to this URL")
 
-        milestone = req.args['id']
-        ticket_count = self._limit_user_data(self._get_open_ticket_count(milestone))
-        hour_count = self._limit_user_data(self._get_remaining_hours(milestone))
-        closed_count = self._limit_user_data(self._get_closed_ticket_count(milestone))
-        logged_count = self._limit_user_data(self._get_hours_logged(milestone))
+        milestone = self._get_milestone(req.args['id'])
 
-        data = {'remaining_tickets': self._limit_user_data(ticket_count),
-                'remaing_tickets_other': self._other_user_query_string(ticket_count),
-                'remaining_hours': self._limit_user_data(hour_count),
-                'remaining_hours_other': self._other_user_query_string(hour_count),
+        if milestone:
+            closed_count = self._limit_user_data(self._get_closed_ticket_count(milestone.name))
+            logged_count = self._limit_user_data(self._get_hours_logged(milestone.name))
+            data = {
                 'closed_tickets': self._limit_user_data(closed_count),
                 'closed_tickets_other': self._other_user_query_string(closed_count),
                 'logged_hours': self._limit_user_data(logged_count),
                 'logged_hours_other': self._other_user_query_string(logged_count),
-        }
+            }
+
+            if milestone.completed:
+                data['milestone_completed'] =  True
+            else:
+                ticket_count = self._limit_user_data(self._get_open_ticket_count(milestone.name))
+                hour_count = self._limit_user_data(self._get_remaining_hours(milestone.name))
+                data.update({
+                    'milestone_completed': False,
+                    'remaining_tickets': self._limit_user_data(ticket_count),
+                    'remaing_tickets_other': self._other_user_query_string(ticket_count),
+                    'remaining_hours': self._limit_user_data(hour_count),
+                    'remaining_hours_other': self._other_user_query_string(hour_count),
+                })
+        else:
+            data = {}
 
         req.send(to_json(data, cls=DecimalEncoder), 'text/json')
 
@@ -85,22 +96,23 @@ class Workload(Component):
                 add_script(req, 'workload/js/workload.js')
                 add_script_data(req, {'milestone_name': milestone.name})
 
-                workload_tag = tag(
-                    tag.h2("Remaining Work"),
-                    tag.div(
-                        tag.div(id_='milestone-workload',
-                                class_='milestone-info span6 center',
-                                style="display:inline;"
-                        ),
-                        tag.div(id_='milestone-workload-hours',
-                                class_='milestone-info span6 center',
-                                style="display:inline;"
-                        ),
-                    id_="workload-charts",
-                    class_="row-fluid"
+                if not milestone.completed:
+                    workload_tag = tag(
+                        tag.h2("Remaining Work"),
+                        tag.div(
+                            tag.div(id_='milestone-workload',
+                                    class_='milestone-info span6 center',
+                                    style="display:inline;"
+                            ),
+                            tag.div(id_='milestone-workload-hours',
+                                    class_='milestone-info span6 center',
+                                    style="display:inline;"
+                            ),
+                        id_="workload-charts",
+                        class_="row-fluid"
+                        )
                     )
-                )
-                stream = stream | Transformer("//*[@id='field-analysis']").after(workload_tag)
+                    stream = stream | Transformer("//*[@id='field-analysis']").after(workload_tag)
 
                 if self._milestone_has_closed_ticket(milestone.name):
 
@@ -119,7 +131,9 @@ class Workload(Component):
                         class_="row-fluid"
                         ),
                     )
-                    stream = stream | Transformer("//*[@id='workload-charts']").after(workdone_tag)
+
+                    div = 'workload-charts' if not milestone.completed else 'field-analysis'
+                    stream = stream | Transformer("//*[@id='{0}']".format(div)).after(workdone_tag)
 
         return stream
 

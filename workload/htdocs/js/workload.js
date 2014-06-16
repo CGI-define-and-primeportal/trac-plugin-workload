@@ -19,16 +19,20 @@ $(document).ready(function() {
       $(".workload-spinner").remove();
 
       // render the piecharts
-      draw_piechart(data['remaining_tickets'], 'milestone-workload');
-      draw_piechart(data['remaining_hours'], 'milestone-workload-hours');
       draw_piechart(data['closed_tickets'], 'milestone-workdone');
       draw_piechart(data['logged_hours'], 'milestone-workdone-hours');
+      if (!data['milestone_completed']) {
+        draw_piechart(data['remaining_tickets'], 'milestone-workload');
+        draw_piechart(data['remaining_hours'], 'milestone-workload-hours');
+      }
 
       // update other query variables for later use in hyperlinks
-      other_workload_ticket_query = data['remaing_tickets_other'];
-      other_workload_hours_query = data['remaining_hours_other'];
       other_workdone_ticket_query = data['closed_tickets_other'];
       other_workdone_hours_query = data['logged_hours_other'];
+      if (!data['milestone_completed']) {
+        other_workload_ticket_query = data['remaing_tickets_other'];
+        other_workload_hours_query = data['remaining_hours_other'];
+      }
 
     },
     error: function(data) {
