@@ -40,27 +40,32 @@ $(document).ready(function() {
   });
 
   function draw_piechart(data, chart) {
-    var plot1 = jQuery.jqplot (chart, [data], 
-      { 
-        seriesDefaults: {
-          renderer: jQuery.jqplot.PieRenderer, 
-          rendererOptions: {
-            showDataLabels: true,
-            dataLabels: 'value', // can use 'percent' too
-            shadowAlpha: 0,
-            dataLabelFormatString: (chart == 'milestone-workload' || chart == 'milestone-workdone') ? null : '%.2f'
-          }
-        }, 
-        legend: { show:true, location: 'e' },
-        grid: {
-          background: "#F5F5F5",
-          shadow: false,
-          borderWidth: 0
-        },
-        seriesColors: [ "#23932C", "#dbb800", "#A94442", "#e9ba9e", "#CEF5D1",
-                        "#9966FF", "#ab8800", "#DFEEFD", "#80ff80", "#F2DEDE"]
-      }
-    );
+    if (data.length == 0) {
+      $('#' + chart).css({'height':'300px', 'color': '#666'})
+                    .html("<i class='icon-info-sign'></i>No data to display");
+    } else {
+      var plot1 = jQuery.jqplot (chart, [data], 
+        { 
+          seriesDefaults: {
+            renderer: jQuery.jqplot.PieRenderer, 
+            rendererOptions: {
+              showDataLabels: true,
+              dataLabels: 'value', // can use 'percent' too
+              shadowAlpha: 0,
+              dataLabelFormatString: (chart == 'milestone-workload' || chart == 'milestone-workdone') ? null : '%.2f'
+            }
+          }, 
+          legend: { show:true, location: 'e' },
+          grid: {
+            background: "#F5F5F5",
+            shadow: false,
+            borderWidth: 0
+          },
+          seriesColors: [ "#23932C", "#dbb800", "#A94442", "#e9ba9e", "#CEF5D1",
+                          "#9966FF", "#ab8800", "#DFEEFD", "#80ff80", "#F2DEDE"]
+        }
+      );
+    }
   };
 
   // set the correct title attribute when user hovers over segment
