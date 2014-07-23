@@ -1,0 +1,9 @@
+#workload-charts .jqplot-title, #workdone-charts .jqplot-title {
+  font-size: 16px;
+  padding: 10px;
+}
+
+.icon-question-sign {
+  padding: 0 0 0 5px;
+  cursor: pointer;
+}

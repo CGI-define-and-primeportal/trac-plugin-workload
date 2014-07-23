@@ -19,11 +19,11 @@ $(document).ready(function() {
       $(".workload-spinner").remove();
 
       // render the piecharts
-      draw_piechart(data['closed_tickets'], 'milestone-workdone');
-      draw_piechart(data['logged_hours'], 'milestone-workdone-hours');
+      draw_piechart(data['closed_tickets'], 'milestone-workdone', 'Closed Tickets');
+      draw_piechart(data['logged_hours'], 'milestone-workdone-hours', 'Hours Logged');
       if (!data['milestone_completed']) {
-        draw_piechart(data['remaining_tickets'], 'milestone-workload');
-        draw_piechart(data['remaining_hours'], 'milestone-workload-hours');
+        draw_piechart(data['remaining_tickets'], 'milestone-workload', 'Open Tickets');
+        draw_piechart(data['remaining_hours'], 'milestone-workload-hours', 'Estimated Remaining Hours');
       }
 
       // update other query variables for later use in hyperlinks
@@ -43,7 +43,7 @@ $(document).ready(function() {
     }
   });
 
-  function draw_piechart(data, chart) {
+  function draw_piechart(data, chart, title) {
     if (data.length == 0) {
       $('#' + chart).css({'height':'300px', 'color': '#666'})
                     .html("<i class='icon-info-sign'></i>No data to display");
@@ -66,7 +66,8 @@ $(document).ready(function() {
             borderWidth: 0
           },
           seriesColors: [ "#23932C", "#dbb800", "#A94442", "#e9ba9e", "#CEF5D1",
-                          "#9966FF", "#ab8800", "#DFEEFD", "#80ff80", "#F2DEDE"]
+                          "#9966FF", "#ab8800", "#DFEEFD", "#80ff80", "#F2DEDE"],
+          title: title
         }
       );
     }
@@ -141,6 +142,36 @@ $(document).ready(function() {
     return "query?" + exclude + "&milestone=" + milestone_name;
 
   }
+
+  // listen to clicks on info buttons
+
+  $('#workdone-help').on('click', function() {
+    console.log("click")
+    $('#workdone-dialog').dialog({
+      title: 'More Information - Completed Work Charts',
+      width: 400,
+      modal: true,
+      buttons: {
+        'Close': function() {
+          $(this).dialog('close');
+        }
+      }
+    });
+  });
+
+  $('#workload-help').on('click', function() {
+    console.log("click")
+    $('#workload-dialog').dialog({
+      title: 'More Information - Remaining Work Charts',
+      width: 400,
+      modal: true,
+      buttons: {
+        'Close': function() {
+          $(this).dialog('close');
+        }
+      }
+    });
+  });
 
 
 })

@@ -46,6 +46,7 @@ setup(
     package_data={
         'workload': [
             'htdocs/js/*.js',
+            'htdocs/css/*.css',
         ]
     },
     entry_points = {

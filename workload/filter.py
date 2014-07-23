@@ -93,12 +93,14 @@ class Workload(Component):
                 add_script(req, 'common/js/jqPlot/plugins/jqplot.pieRenderer.min.js')
                 add_script(req, 'common/js/jqPlot/plugins/jqplot.highlighter.min.js')
                 add_stylesheet(req, 'common/js/jqPlot/jquery.jqplot.css')
+                add_stylesheet(req, 'workload/css/workload.css')
                 add_script(req, 'workload/js/workload.js')
                 add_script_data(req, {'milestone_name': milestone.name})
 
                 if not milestone.completed:
                     workload_tag = tag(
-                        tag.h2("Remaining Work"),
+                        tag.h2("Remaining Work ", class_="inline-block"),
+                        tag.i(id_='workload-help',class_='icon-question-sign color-muted'),
                         tag.div(
                             tag.div(id_='milestone-workload',
                                     class_='milestone-info span6 center',
@@ -110,14 +112,22 @@ class Workload(Component):
                             ),
                         id_="workload-charts",
                         class_="row-fluid"
-                        )
+                        ),
+                        tag.div(
+                            tag.p("Remaining work pie charts are generated to help projects recognise the effort necessary to complete the milestone."),
+                            tag.p("The open tickets chart counts the number of open tickets each project member has to complete within the milestone."),
+                            tag.p("The remaining hours chart reflects the cumulative estimated hours of efforts required to close these tickets."),
+                            tag.p("In both charts only the top {0} members with the highest ticket/hours count are displayed. Remaining members have their data aggregated into a 'other' group.".format(self.user_limit)),
+                            id_="workload-dialog", class_="hidden"
+                        ),
                     )
                     stream = stream | Transformer("//*[@id='field-analysis']").after(workload_tag)
 
                 if self._milestone_has_closed_ticket(milestone.name):
 
                     workdone_tag = tag(
-                        tag.h2("Completed Work"),
+                        tag.h2("Completed Work ", class_="inline-block"),
+                        tag.i(id_='workdone-help', class_='icon-question-sign color-muted'),
                         tag.div(
                             tag.div(id_='milestone-workdone',
                                     class_='milestone-info span6 center',
@@ -129,6 +139,13 @@ class Workload(Component):
                             ),
                         id_="workdone-charts",
                         class_="row-fluid"
+                        ),
+                        tag.div(
+                            tag.p("Completed work pie charts are generated to help projects analyse the contribution of members during the milestone."),
+                            tag.p("The closed tickets charts counts the number of tickets each project member has completed during the milestone."),
+                            tag.p("The hours logged chart reflects the cumulative hours of work that were required to close these tickets."),
+                            tag.p("In both charts only the top {0} members with the highest ticket/hours count are displayed. Remaining members have their data aggregated into a 'other' group.".format(self.user_limit)),
+                            id_="workdone-dialog", class_="hidden"
                         ),
                     )
 
