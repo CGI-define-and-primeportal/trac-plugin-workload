@@ -146,7 +146,6 @@ $(document).ready(function() {
   // listen to clicks on info buttons
 
   $('#workdone-help').on('click', function() {
-    console.log("click")
     $('#workdone-dialog').dialog({
       title: 'More Information - Completed Work Charts',
       width: 400,
@@ -160,7 +159,6 @@ $(document).ready(function() {
   });
 
   $('#workload-help').on('click', function() {
-    console.log("click")
     $('#workload-dialog').dialog({
       title: 'More Information - Remaining Work Charts',
       width: 400,
