@@ -91,7 +91,6 @@ class Workload(Component):
                 add_script(req, 'common/js/jqPlot/jquery.jqplot.js')
                 add_script(req, 'common/js/jqPlot/excanvas.min.js')
                 add_script(req, 'common/js/jqPlot/plugins/jqplot.pieRenderer.min.js')
-                add_script(req, 'common/js/jqPlot/plugins/jqplot.highlighter.min.js')
                 add_stylesheet(req, 'common/js/jqPlot/jquery.jqplot.css')
                 add_stylesheet(req, 'workload/css/workload.css')
                 add_script(req, 'workload/js/workload.js')
