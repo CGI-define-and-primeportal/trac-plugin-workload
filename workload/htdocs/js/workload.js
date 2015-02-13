@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-  var spinner_markup = "<i class='workload-spinner icon-spinner \
-                        icon-spin icon-2x color-muted-dark'></i>"
+  var spinner_markup = "<i class='workload-spinner fa fa-spinner \
+                        fa-spin fa-2x color-muted-dark'></i>"
   var workload_selectors = "#milestone-workload, #milestone-workload-hours, \
                             #milestone-workdone, #milestone-workdone-hours"
   $(workload_selectors).append(spinner_markup);
@@ -39,14 +39,14 @@ $(document).ready(function() {
       $(".workload-spinner, #milestone-workload-hours, #milestone-workdone-hours").remove()
       $("#milestone-workdone, #milestone-workload").removeClass("span6 center")
                                                    .addClass("span12")
-                                                   .html("<i class='icon-info-sign'></i> Failed to retrieve workload data.")
+                                                   .html("<i class='fa fa-info-circle'></i> Failed to retrieve workload data.")
     }
   });
 
   function draw_piechart(data, chart, title) {
     if (data.length == 0) {
       $('#' + chart).css({'height':'300px', 'color': '#666'})
-                    .html("<i class='icon-info-sign'></i>No data to display");
+                    .html("<i class='fa fa-info-circle'></i>No data to display");
     } else {
       var plot1 = jQuery.jqplot (chart, [data], 
         { 
