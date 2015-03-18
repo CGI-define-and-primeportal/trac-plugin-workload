@@ -99,7 +99,7 @@ class Workload(Component):
                 if not milestone.completed:
                     workload_tag = tag(
                         tag.h2("Remaining Work ", class_="inline-block"),
-                        tag.i(id_='workload-help',class_='icon-question-sign color-muted'),
+                        tag.i(id_='workload-help',class_='fa fa-question-circle color-muted'),
                         tag.div(
                             tag.div(id_='milestone-workload',
                                     class_='milestone-info span6 center',
@@ -126,7 +126,7 @@ class Workload(Component):
 
                     workdone_tag = tag(
                         tag.h2("Completed Work ", class_="inline-block"),
-                        tag.i(id_='workdone-help', class_='icon-question-sign color-muted'),
+                        tag.i(id_='workdone-help', class_='fa fa-question-circle color-muted'),
                         tag.div(
                             tag.div(id_='milestone-workdone',
                                     class_='milestone-info span6 center',
