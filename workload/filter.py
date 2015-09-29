@@ -10,7 +10,6 @@ from trac.web.chrome import ITemplateProvider, add_script, add_stylesheet, add_s
 from genshi.filters.transform import Transformer
 from genshi.builder import tag
 import pkg_resources
-import re
 
 class Workload(Component):
 
