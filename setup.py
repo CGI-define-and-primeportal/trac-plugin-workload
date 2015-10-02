@@ -32,7 +32,7 @@
 # Author: Danny Milsom <danny.milsom@cgi.com>
 # Copyright (C) 2014 CGI IT UK Ltd
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='WorkloadPlugin', 
