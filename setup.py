@@ -40,7 +40,12 @@ setup(
     description='Creates charts to represent workload for users during a milestone.',
     author="Danny Milsom", 
     author_email="danny.milsom@cgi.com",
-    license='BSD', 
+    maintainer="CGI CoreTeam",
+    maintainer_email="coreteam.service.desk.se@cgi.com",
+    contact="CGI CoreTeam",
+    contact_email="coreteam.service.desk.se@cgi.com",
+    classifiers=['License :: OSI Approved :: BSD License'],
+    license='BSD',
     url='http://define.primeportal.com/',
     packages = ['workload'],
     package_data={
